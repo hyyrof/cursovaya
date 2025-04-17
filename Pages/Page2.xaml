@@ -1,0 +1,39 @@
+﻿<Page x:Class="WpfApp1.Pages.Page2"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp1.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="350"
+      Title="Page2">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition/>
+            
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="DGrideAthlete" IsReadOnly="True" AutoGenerateColumns="False">
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="BaseSave" Grid.Row="1" Width="350" Click="BtnSave_Click">Сохранить</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.RowSpan="1">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Margin="3">Имя</TextBlock>
+                <TextBlock Margin="4">Телефон</TextBlock>
+                <TextBlock Margin="5">email</TextBlock>
+                <TextBlock Margin="6">ДатаРегистрации</TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBox x:Name="LastNameWor" Margin="5" Width="100" Text="{Binding FirsName}" />
+            <TextBox x:Name="DataBrithWor" Margin="5" Width="100" Text="{Binding PhoneName}" />
+            <TextBox x:Name="SalaryWor" Margin="5" Width="100" Text="{Binding EmailName}" />
+            <TextBox x:Name="ExperienceWor" Margin="5" Width="100" Text="{Binding DataName}" />
+        </StackPanel>
+
+
+    </Grid>
+</Page>
