@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="kursovai_naumovModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="bludo">
+    <Key>
+      <PropertyRef Name="bludo_id" />
+    </Key>
+    <Property Name="pure" Type="Int32" />
+    <Property Name="steik" Type="Int32" />
+    <Property Name="smiyzi" Type="Int32" />
+    <Property Name="bludo_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="order_items" Relationship="Self.FK_order_items_bludo" FromRole="bludo" ToRole="order_items" />
+    <NavigationProperty Name="sostav_bluda" Relationship="Self.FK_sostav_bluda_bludo" FromRole="bludo" ToRole="sostav_bluda" />
+  </EntityType>
+  <EntityType Name="customers">
+    <Key>
+      <PropertyRef Name="customer_id" />
+    </Key>
+    <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="registration_date" Type="DateTime" Precision="0" />
+    <Property Name="preferences" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="orders" Relationship="Self.FK__orders__customer__403A8C7D" FromRole="customers" ToRole="orders" />
+    <NavigationProperty Name="payments" Relationship="Self.FK__payments__custom__5441852A" FromRole="customers" ToRole="payments" />
+  </EntityType>
+  <EntityType Name="employees">
+    <Key>
+      <PropertyRef Name="employee_id" />
+    </Key>
+    <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="hire_date" Type="DateTime" Precision="0" />
+    <Property Name="salary" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="orders" Relationship="Self.FK__orders__employee__412EB0B6" FromRole="employees" ToRole="orders" />
+  </EntityType>
+  <EntityType Name="order_items">
+    <Key>
+      <PropertyRef Name="order_item_id" />
+    </Key>
+    <Property Name="order_item_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="order_id" Type="Int32" />
+    <Property Name="bludo_id" Type="Int32" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="total" Type="Decimal" Precision="21" Scale="2" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="bludo" Relationship="Self.FK_order_items_bludo" FromRole="order_items" ToRole="bludo" />
+    <NavigationProperty Name="orders" Relationship="Self.FK__order_ite__order__440B1D61" FromRole="order_items" ToRole="orders" />
+  </EntityType>
+  <EntityType Name="orders">
+    <Key>
+      <PropertyRef Name="order_id" />
+    </Key>
+    <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customer_id" Type="Int32" />
+    <Property Name="order_date" Type="DateTime" Precision="0" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="total_amount" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="employee_id" Type="Int32" />
+    <NavigationProperty Name="customers" Relationship="Self.FK__orders__customer__403A8C7D" FromRole="orders" ToRole="customers" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__orders__employee__412EB0B6" FromRole="orders" ToRole="employees" />
+    <NavigationProperty Name="order_items" Relationship="Self.FK__order_ite__order__440B1D61" FromRole="orders" ToRole="order_items" />
+    <NavigationProperty Name="payments" Relationship="Self.FK__payments__order___534D60F1" FromRole="orders" ToRole="payments" />
+  </EntityType>
+  <EntityType Name="payments">
+    <Key>
+      <PropertyRef Name="payment_id" />
+    </Key>
+    <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="order_id" Type="Int32" />
+    <Property Name="customer_id" Type="Int32" />
+    <Property Name="amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="payment_date" Type="DateTime" Precision="0" />
+    <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="customers" Relationship="Self.FK__payments__custom__5441852A" FromRole="payments" ToRole="customers" />
+    <NavigationProperty Name="orders" Relationship="Self.FK__payments__order___534D60F1" FromRole="payments" ToRole="orders" />
+  </EntityType>
+  <EntityType Name="product_categories">
+    <Key>
+      <PropertyRef Name="category_id" />
+    </Key>
+    <Property Name="category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="products" Relationship="Self.FK__products__catego__35BCFE0A" FromRole="product_categories" ToRole="products" />
+  </EntityType>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="category_id" Type="Int32" />
+    <Property Name="in_stock" Type="Boolean" />
+    <Property Name="inventory_id" Type="Int32" />
+    <NavigationProperty Name="product_categories" Relationship="Self.FK__products__catego__35BCFE0A" FromRole="products" ToRole="product_categories" />
+    <NavigationProperty Name="supplier_products" Relationship="Self.FK__supplier___produ__628FA481" FromRole="products" ToRole="supplier_products" />
+    <NavigationProperty Name="sostav_bluda" Relationship="Self.FK_sostav_bluda_products" FromRole="products" ToRole="sostav_bluda" />
+  </EntityType>
+  <EntityType Name="sostav_bluda">
+    <Key>
+      <PropertyRef Name="id_sostav" />
+    </Key>
+    <Property Name="id_sostav" Type="Int32" Nullable="false" />
+    <Property Name="bludo_id" Type="Int32" />
+    <Property Name="produck_id" Type="Int32" />
+    <Property Name="ves" Type="Int32" />
+    <NavigationProperty Name="bludo" Relationship="Self.FK_sostav_bluda_bludo" FromRole="sostav_bluda" ToRole="bludo" />
+    <NavigationProperty Name="products" Relationship="Self.FK_sostav_bluda_products" FromRole="sostav_bluda" ToRole="products" />
+  </EntityType>
+  <EntityType Name="supplier_products">
+    <Key>
+      <PropertyRef Name="postavki_id" />
+    </Key>
+    <Property Name="supply_id" Type="Int32" Nullable="false" />
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="postavki_id" Type="Int32" Nullable="false" />
+    <Property Name="kolichestvo" Type="Int32" />
+    <NavigationProperty Name="products" Relationship="Self.FK__supplier___produ__628FA481" FromRole="supplier_products" ToRole="products" />
+    <NavigationProperty Name="supplies" Relationship="Self.FK_supplier_products_supplies" FromRole="supplier_products" ToRole="supplies" />
+  </EntityType>
+  <EntityType Name="suppliers">
+    <Key>
+      <PropertyRef Name="supplier_id" />
+    </Key>
+    <Property Name="supplier_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="company_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contact_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="contact_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="supplied_products" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="supplies" Relationship="Self.FK__supplies__suppli__4AB81AF0" FromRole="suppliers" ToRole="supplies" />
+  </EntityType>
+  <EntityType Name="supplies">
+    <Key>
+      <PropertyRef Name="supply_id" />
+    </Key>
+    <Property Name="supply_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="supplier_id" Type="Int32" />
+    <Property Name="supply_date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="supplier_products" Relationship="Self.FK_supplier_products_supplies" FromRole="supplies" ToRole="supplier_products" />
+    <NavigationProperty Name="suppliers" Relationship="Self.FK__supplies__suppli__4AB81AF0" FromRole="supplies" ToRole="suppliers" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_order_items_bludo">
+    <End Role="bludo" Type="Self.bludo" Multiplicity="0..1" />
+    <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="bludo">
+        <PropertyRef Name="bludo_id" />
+      </Principal>
+      <Dependent Role="order_items">
+        <PropertyRef Name="bludo_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sostav_bluda_bludo">
+    <End Role="bludo" Type="Self.bludo" Multiplicity="0..1" />
+    <End Role="sostav_bluda" Type="Self.sostav_bluda" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="bludo">
+        <PropertyRef Name="bludo_id" />
+      </Principal>
+      <Dependent Role="sostav_bluda">
+        <PropertyRef Name="bludo_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orders__customer__403A8C7D">
+    <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="customer_id" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__payments__custom__5441852A">
+    <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="customer_id" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__orders__employee__412EB0B6">
+    <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+    <End Role="orders" Type="Self.orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="employee_id" />
+      </Principal>
+      <Dependent Role="orders">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__order_ite__order__440B1D61">
+    <End Role="orders" Type="Self.orders" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="order_items" Type="Self.order_items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orders">
+        <PropertyRef Name="order_id" />
+      </Principal>
+      <Dependent Role="order_items">
+        <PropertyRef Name="order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__payments__order___534D60F1">
+    <End Role="orders" Type="Self.orders" Multiplicity="0..1" />
+    <End Role="payments" Type="Self.payments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orders">
+        <PropertyRef Name="order_id" />
+      </Principal>
+      <Dependent Role="payments">
+        <PropertyRef Name="order_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__products__catego__35BCFE0A">
+    <End Role="product_categories" Type="Self.product_categories" Multiplicity="0..1" />
+    <End Role="products" Type="Self.products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product_categories">
+        <PropertyRef Name="category_id" />
+      </Principal>
+      <Dependent Role="products">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__supplier___produ__628FA481">
+    <End Role="products" Type="Self.products" Multiplicity="1" />
+    <End Role="supplier_products" Type="Self.supplier_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="supplier_products">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sostav_bluda_products">
+    <End Role="products" Type="Self.products" Multiplicity="0..1" />
+    <End Role="sostav_bluda" Type="Self.sostav_bluda" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="products">
+        <PropertyRef Name="product_id" />
+      </Principal>
+      <Dependent Role="sostav_bluda">
+        <PropertyRef Name="produck_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_supplier_products_supplies">
+    <End Role="supplies" Type="Self.supplies" Multiplicity="1" />
+    <End Role="supplier_products" Type="Self.supplier_products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="supplies">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="supplier_products">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__supplies__suppli__4AB81AF0">
+    <End Role="suppliers" Type="Self.suppliers" Multiplicity="0..1" />
+    <End Role="supplies" Type="Self.supplies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="suppliers">
+        <PropertyRef Name="supplier_id" />
+      </Principal>
+      <Dependent Role="supplies">
+        <PropertyRef Name="supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="kursovai_naumovEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="bludo" EntityType="Self.bludo" />
+    <EntitySet Name="customers" EntityType="Self.customers" />
+    <EntitySet Name="employees" EntityType="Self.employees" />
+    <EntitySet Name="order_items" EntityType="Self.order_items" />
+    <EntitySet Name="orders" EntityType="Self.orders" />
+    <EntitySet Name="payments" EntityType="Self.payments" />
+    <EntitySet Name="product_categories" EntityType="Self.product_categories" />
+    <EntitySet Name="products" EntityType="Self.products" />
+    <EntitySet Name="sostav_bluda" EntityType="Self.sostav_bluda" />
+    <EntitySet Name="supplier_products" EntityType="Self.supplier_products" />
+    <EntitySet Name="suppliers" EntityType="Self.suppliers" />
+    <EntitySet Name="supplies" EntityType="Self.supplies" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_order_items_bludo" Association="Self.FK_order_items_bludo">
+      <End Role="bludo" EntitySet="bludo" />
+      <End Role="order_items" EntitySet="order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sostav_bluda_bludo" Association="Self.FK_sostav_bluda_bludo">
+      <End Role="bludo" EntitySet="bludo" />
+      <End Role="sostav_bluda" EntitySet="sostav_bluda" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orders__customer__403A8C7D" Association="Self.FK__orders__customer__403A8C7D">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__payments__custom__5441852A" Association="Self.FK__payments__custom__5441852A">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__orders__employee__412EB0B6" Association="Self.FK__orders__employee__412EB0B6">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="orders" EntitySet="orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__order_ite__order__440B1D61" Association="Self.FK__order_ite__order__440B1D61">
+      <End Role="orders" EntitySet="orders" />
+      <End Role="order_items" EntitySet="order_items" />
+    </AssociationSet>
+    <AssociationSet Name="FK__payments__order___534D60F1" Association="Self.FK__payments__order___534D60F1">
+      <End Role="orders" EntitySet="orders" />
+      <End Role="payments" EntitySet="payments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__products__catego__35BCFE0A" Association="Self.FK__products__catego__35BCFE0A">
+      <End Role="product_categories" EntitySet="product_categories" />
+      <End Role="products" EntitySet="products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__supplier___produ__628FA481" Association="Self.FK__supplier___produ__628FA481">
+      <End Role="products" EntitySet="products" />
+      <End Role="supplier_products" EntitySet="supplier_products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sostav_bluda_products" Association="Self.FK_sostav_bluda_products">
+      <End Role="products" EntitySet="products" />
+      <End Role="sostav_bluda" EntitySet="sostav_bluda" />
+    </AssociationSet>
+    <AssociationSet Name="FK_supplier_products_supplies" Association="Self.FK_supplier_products_supplies">
+      <End Role="supplies" EntitySet="supplies" />
+      <End Role="supplier_products" EntitySet="supplier_products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__supplies__suppli__4AB81AF0" Association="Self.FK__supplies__suppli__4AB81AF0">
+      <End Role="suppliers" EntitySet="suppliers" />
+      <End Role="supplies" EntitySet="supplies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
